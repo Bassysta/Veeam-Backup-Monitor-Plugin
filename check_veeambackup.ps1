@@ -1,5 +1,3 @@
-# Modified by Blackrow, just and upgrade of  robinsmit work.
-
 # Adding required SnapIn
 
 asnp VeeamPSSnapin
@@ -21,9 +19,7 @@ if ($job -eq $null)
 	exit 3
 }
 
-
-# Check if Job is disabled
-# A Blackrow part, OMG i'm so excited!
+#Check if Job is disabled, NOT WORK with Backup Copy
 
 if ($job.IsScheduleEnabled -ne $true)
 {
@@ -43,23 +39,29 @@ if ($status -eq "Failed")
 	exit 2
 }
 
-
 #Check VM Restore Points  Status
-# Yeah, even this part is mine
+
 if ($job.Isbackup -eq $true)
+{
+$Session = $Job.FindLastSession()
+$Session = $Session.state
+
+if ($Session -eq "Stopped")
+
 {
 
 $Restorepoints = Get-VBRBackup -Name $job.name | Get-VBRRestorePoint -Name *
 
  foreach($RP in $Restorepoints)
- { 
- 
+ {
+
  $CheckState = $RP.IsCorrupted 
  $RecheckState = $RP.IsRecheckCorrupted
- $ConsistentState = $RP.IsConsistent  
+ $ConsistentState = $RP.IsConsistent
+
  
  if ($CheckState -ne $false -or $RecheckState -ne $false -or $ConsistentState -ne $true)
- 
+
 {
 
 $VM = $RP.Name
@@ -69,14 +71,14 @@ exit 2
 }
 }
 }
-
+}
 #---------------------------------------------
 
 #Check Backup Status
 
 if ($status -ne "Success")
 {
-	Write-Host "WARNING! Job $name is in WARNING State."
+	Write-Host "WARNING! Job $name is in WARNING State. Session is: $Session"
 	exit 1
 }
 	
@@ -92,11 +94,11 @@ $last = $last.split(' ')[0]
 
 if((Get-Date $now) -gt (Get-Date $last))
 {
-	Write-Host "CRITICAL! Last run of job: $name more than $period days ago."
+	Write-Host "CRITICAL! Last run of job: $name more than $period days ago. Session is: $Session"
 	exit 2
 } 
 else
 {
-	Write-Host "OK! Backup process of job $name completed successfully."
+	Write-Host "OK! Backup process of job $name completed successfully. Session is: $Session"
 	exit 0
 }
