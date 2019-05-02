@@ -11,7 +11,7 @@ https://community.icinga.com/t/windows-powershell-checks-with-icinga2/712
 
 Command Template:
 
-./check_veeambackup.ps1 "BACKUPNAME" <daysnumber>
+./check_veeambackup.ps1 "BACKUPNAME" NumberOfDays
   
 Command Example: 
 
