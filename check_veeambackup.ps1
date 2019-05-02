@@ -1,4 +1,4 @@
-#Modified by Blackrow, just and upgrade of  robinsmit work.
+# Modified by Blackrow, just and upgrade of  robinsmit work.
 
 # Adding required SnapIn
 
@@ -21,7 +21,9 @@ if ($job -eq $null)
 	exit 3
 }
 
-#Check if Job is disabled
+
+# Check if Job is disabled
+# A Blackrow part, OMG i'm so excited!
 
 if ($job.IsScheduleEnabled -ne $true)
 {
@@ -41,8 +43,9 @@ if ($status -eq "Failed")
 	exit 2
 }
 
-#Check VM Restore Points  Status
 
+#Check VM Restore Points  Status
+# Yeah, even this part is mine
 if ($job.Isbackup -eq $true)
 {
 
@@ -74,7 +77,7 @@ exit 2
 if ($status -ne "Success")
 {
 	Write-Host "WARNING! Job $name is in WARNING State."
-	exit 0
+	exit 1
 }
 	
 # Veeam Backup & Replication job last run check
