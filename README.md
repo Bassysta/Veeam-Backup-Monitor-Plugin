@@ -1,5 +1,5 @@
 # Veeam-Backup-Monitor-Plugin
-A Plugin Script based on robinsmit's project, compatible with Nagios and Icinga. I've added some commands to check if Job's are disabled and if restore points are corruped.  This is my first project so be gentle with me, 'i'm a poor little IT boy who wants to be a man.
+A Powershell Script based on robinsmit's project, compatible with Nagios and Icinga. I've added some commands to check if Job's are disabled and if restore points are corruped.  This is my first project so be gentle with me, 'i'm a poor little IT boy who wants to be a man.
 
 INSTALLATION:
 
