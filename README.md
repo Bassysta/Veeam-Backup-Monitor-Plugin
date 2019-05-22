@@ -5,7 +5,7 @@ INSTALLATION:
 
 1- Copy the .ps1 file to icinga sbin directory
 
-2- Configure Icinga to run PS Command following those steps
+2- Configure Icinga to run PS Command following these steps
 
 https://community.icinga.com/t/windows-powershell-checks-with-icinga2/712
 
