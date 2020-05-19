@@ -6,7 +6,7 @@ asnp VeeamPSSnapin
 
 $name = $args[0]
 $period = $args[1]
-
+$dateformat = "dd/MM/yyyy"
 # Veeam Backup & Replication job status check
 
 $job = Get-VBRJob -Name $name
@@ -86,11 +86,12 @@ if ($status -ne "Success")
 
 $now = (Get-Date).AddDays(-$period)
 $now = $now.ToString("yyyy-MM-dd")
-$last = $job.GetScheduleOptions()
-$last = $last -replace '.*Latest run time: \[', ''
-$last = $last -replace '\], Next run time: .*', ''
-$last = $last.split(' ')[0]
-
+$last =  get-vbrsession -job $job -Last | select -ExpandProperty "CreationTime"
+# Uncomment this for old Veeam Version
+#$last = $job.GetScheduleOptions()
+#$last = $last -replace '.*Latest run time: \[', ''
+#$last = $last -replace '\], Next run time: .*', ''
+#$last = $last.split(' ')[0]
 
 if((Get-Date $now) -gt (Get-Date $last))
 {
@@ -99,6 +100,7 @@ if((Get-Date $now) -gt (Get-Date $last))
 } 
 else
 {
-	Write-Host "OK! Backup process of job $name completed successfully. Session is: $Session"
+	$last = $last.tostring($dateformat)
+	Write-Host "OK! Backup process of job $name completed successfully on $last Session is: $Session"
 	exit 0
 }
